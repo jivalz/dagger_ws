@@ -54,7 +54,7 @@ def generate_launch_description():
         
         # DAgger Inference Node
         TimerAction(
-            period=5.0,
+            period=10.0,
             actions=[
                 Node(
                     package='controllers',
@@ -65,6 +65,26 @@ def generate_launch_description():
                     remappings=[
                         ('/scan', '/scan'),
                         ('/cmd_vel', '/cmd_vel'),
+                    ],
+                ),
+            ],
+        ),
+        
+        # Lap Counter
+        TimerAction(
+            period=4.0,
+            actions=[
+                Node(
+                    package='controllers',
+                    executable='lap_counter_node',
+                    name='lap_counter',
+                    output='screen',
+                    parameters=[
+                        {'max_laps': 3},
+                    ],
+                    remappings=[
+                        ('/ego/odom', '/odom'),
+                        ('/ego/done', '/done'),
                     ],
                 ),
             ],
