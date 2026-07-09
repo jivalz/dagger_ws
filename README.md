@@ -18,7 +18,13 @@ echo "source /usr/share/gazebo/setup.sh" >> ~/.bashrc
 source ~/.bashrc
 ```
 
-## 2. Build the Workspace
+## 2. Clone and Build the Workspace
+
+It is highly recommended to clone this repository directly into your home directory so that all the script paths resolve correctly:
+```bash
+cd ~
+git clone https://github.com/jivalz/dagger_ws.git
+```
 
 Navigate to the workspace and build the packages:
 ```bash
