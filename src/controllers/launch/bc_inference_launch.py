@@ -81,6 +81,8 @@ def generate_launch_description():
                     output='screen',
                     parameters=[
                         {'max_laps': 3},
+                        {'gate_x': -8.0},
+                        {'gate_y': 0.0},
                     ],
                     remappings=[
                         ('/ego/odom', '/odom'),
