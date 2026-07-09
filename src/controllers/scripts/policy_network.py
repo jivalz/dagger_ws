@@ -3,7 +3,7 @@ import torch.nn as nn
 
 
 class PolicyNetwork(nn.Module):
-    def __init__(self, input_dim=1080, output_dim=2):
+    def __init__(self, input_dim=360, output_dim=2):
         super().__init__()
         self.net = nn.Sequential(
             nn.Linear(input_dim, 512),
@@ -28,7 +28,7 @@ class PolicyNetwork(nn.Module):
         return self.net(x)
 
     def predict(self, scan_np):
-        """Numpy convenience: (1080,) → (2,)."""
+        """Numpy convenience: (360,) → (2,)."""
         import numpy as np
         with torch.no_grad():
             x = torch.tensor(scan_np, dtype=torch.float32).unsqueeze(0)

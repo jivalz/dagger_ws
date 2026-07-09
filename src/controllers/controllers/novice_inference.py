@@ -9,7 +9,7 @@ from sensor_msgs.msg import LaserScan
 from geometry_msgs.msg import Twist
 from std_msgs.msg import Bool
 
-sys.path.insert(0, os.path.expanduser('~/new1/src/controllers'))
+sys.path.insert(0, os.path.expanduser('~/dagger_ws/src/controllers'))
 from scripts.policy_network import PolicyNetwork
 
 
@@ -23,11 +23,11 @@ class NoviceInferenceNode(Node):
         weights = self.get_parameter('weights_path').value
         if not weights:
             weights = os.path.expanduser(
-                '~/new1/src/controllers/weights/ego_policy.pt'
+                '~/dagger_ws/src/controllers/weights/bc_policy.pt'
             )
         self.max_range = self.get_parameter('max_range').value
 
-        self.model = PolicyNetwork(input_dim=1080, output_dim=2)
+        self.model = PolicyNetwork(input_dim=360, output_dim=2)
         if os.path.exists(weights):
             self.model.load_state_dict(torch.load(weights, map_location='cpu'))
             self.model.eval()
@@ -61,6 +61,7 @@ class NoviceInferenceNode(Node):
             return
 
         ranges = np.array(self.latest_scan.ranges, dtype=np.float32)
+        ranges = ranges[::3]  # Downsample from 1080 to 360
         ranges = np.where(np.isfinite(ranges), ranges, self.max_range)
         ranges = np.clip(ranges / self.max_range, 0.0, 1.0)
 

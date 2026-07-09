@@ -44,12 +44,12 @@ class TeleopKeyboard(Node):
         self.get_logger().info("Tkinter window opened. Click it to focus!")
 
     def on_press(self, event):
-        char = event.char.lower()
+        char = event.keysym.lower()
         if char in self.pressed:
             self.pressed[char] = True
 
     def on_release(self, event):
-        char = event.char.lower()
+        char = event.keysym.lower()
         if char in self.pressed:
             self.pressed[char] = False
 

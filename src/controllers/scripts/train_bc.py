@@ -37,6 +37,8 @@ def main():
     for fpath in files:
         data = np.load(fpath)
         scans = data['scans'].astype(np.float32)
+        if scans.shape[1] == 1080:
+            scans = scans[:, ::3]  # Downsample to 360 points
         actions = data['actions'].astype(np.float32)
 
         if args.filter_zeros:
@@ -84,6 +86,9 @@ def main():
     patience_counter = 0
     save_path = os.path.join(weights_dir, 'bc_policy.pt')
 
+    train_losses = []
+    val_losses = []
+
     for epoch in range(1, args.epochs + 1):
         model.train()
         train_loss = 0.0
@@ -107,6 +112,9 @@ def main():
         val_loss /= max(len(val_ds), 1)
         scheduler.step(val_loss)
 
+        train_losses.append(train_loss)
+        val_losses.append(val_loss)
+
         if epoch % 10 == 0 or epoch == 1:
             print(f'Epoch {epoch:03d} | Train: {train_loss:.4f} | Val: {val_loss:.4f}')
 
@@ -122,6 +130,17 @@ def main():
                 break
 
     print(f'Saved: {save_path}')
+
+    plt.figure()
+    plt.plot(range(1, len(train_losses) + 1), train_losses, label='Train Loss')
+    plt.plot(range(1, len(val_losses) + 1), val_losses, label='Validation Loss')
+    plt.xlabel('Epoch')
+    plt.ylabel('Loss (MSE)')
+    plt.title('Training and Validation Loss')
+    plt.legend()
+    plot_path = os.path.join(weights_dir, 'loss_plot.png')
+    plt.savefig(plot_path)
+    print(f'Saved loss plot to: {plot_path}')
 
 if __name__ == '__main__':
     main()

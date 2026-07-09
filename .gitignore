@@ -1,3 +1,7 @@
 build/
 install/
 log/
+
+src/controllers/data/bc_data/
+src/controllers/data/dagger_data/
+src/controllers/weights/

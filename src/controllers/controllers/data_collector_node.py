@@ -33,7 +33,7 @@ class DataCollectorNode(Node):
         self.expert_id = self.get_parameter('expert_id').value
         ws = self.get_parameter('workspace').value
         if not ws:
-            ws = os.path.expanduser('~/new1/src/controllers')
+            ws = os.path.expanduser('~/dagger_ws/src/controllers')
         data_dir = os.path.join(ws, 'data')
         
         save_folder = self.get_parameter('save_folder').value
@@ -158,6 +158,7 @@ class DataCollectorNode(Node):
         odom = self.latest_odom
 
         ranges = np.array(self.latest_scan.ranges, dtype=np.float32)
+        ranges = ranges[::3]  # Downsample from 1080 to 360 points
         max_r = self.latest_scan.range_max
         ranges = np.where(np.isfinite(ranges), ranges, max_r)
 
