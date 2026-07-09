@@ -4,6 +4,19 @@ Welcome to the Interactive Imitation Learning tutorial! In this repository, you 
 
 ## 1. Prerequisites & Setup
 
+You can either run the provided `install.sh` script to completely automate the setup process (ROS 2 Humble, Gazebo, PyTorch, and cloning), or follow the manual steps below.
+
+### Option A: Automatic Setup
+Download and run the installation script:
+```bash
+wget https://raw.githubusercontent.com/jivalz/dagger_ws/main/install.sh
+chmod +x install.sh
+./install.sh
+```
+*(After it finishes, close your terminal, open a new one, and jump straight to Section 3: Workflow).*
+
+### Option B: Manual Setup
+
 This tutorial assumes you already have **ROS 2 Humble** installed on your system. 
 
 First, install Gazebo Classic and the necessary ROS 2 integration packages:
