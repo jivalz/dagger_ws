@@ -55,17 +55,17 @@ if [ -n "$VIRTUAL_ENV" ]; then
     echo "Active virtual environment detected ($VIRTUAL_ENV)."
     read -p "Do you want to install PyTorch and other dependencies in this venv? (y/n): " INSTALL_PYTHON_DEPS
     if [[ "$INSTALL_PYTHON_DEPS" =~ ^[Yy]$ ]]; then
-        pip install torch torchvision torchaudio numpy matplotlib
+        pip install torch torchvision torchaudio numpy matplotlib --index-url https://download.pytorch.org/whl/cpu
     else
         echo "Skipping Python dependencies installation."
     fi
 else
     read -p "Do you want to install PyTorch and other dependencies system-wide? This may take a while. (y/n): " INSTALL_PYTHON_DEPS
     if [[ "$INSTALL_PYTHON_DEPS" =~ ^[Yy]$ ]]; then
-        pip3 install torch torchvision torchaudio numpy matplotlib
+        pip3 install torch torchvision torchaudio numpy matplotlib --index-url https://download.pytorch.org/whl/cpu
     else
         echo "Skipping Python dependencies installation."
-        echo "You can install them later inside a venv using: pip install torch torchvision torchaudio numpy matplotlib"
+        echo "You can install them later inside a venv using: pip install torch torchvision torchaudio numpy matplotlib --index-url https://download.pytorch.org/whl/cpu"
     fi
 fi
 
