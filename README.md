@@ -25,6 +25,11 @@ sudo apt update
 sudo apt install gazebo ros-humble-gazebo-ros-pkgs
 ```
 
+Next, install PyTorch (which is required for training the policies):
+```bash
+pip3 install torch torchvision
+```
+
 To ensure Gazebo works smoothly and can find its models, add the Gazebo setup script to your `.bashrc`:
 ```bash
 echo "source /usr/share/gazebo/setup.sh" >> ~/.bashrc
