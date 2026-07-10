@@ -12,11 +12,15 @@ sudo update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
 export LANG=en_US.UTF-8
 
 # 2. Add ROS 2 repository
-sudo apt install software-properties-common -y
-sudo add-apt-repository universe -y
-sudo apt update && sudo apt install curl -y
-sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
-echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" | sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null
+if [ ! -f /etc/apt/sources.list.d/ros2.list ]; then
+    sudo apt install software-properties-common -y
+    sudo add-apt-repository universe -y
+    sudo apt update && sudo apt install curl -y
+    sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" | sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null
+else
+    echo "ROS 2 repository already exists. Skipping repository setup."
+fi
 
 # 3. Install ROS 2 and Build Tools
 sudo apt update
@@ -39,12 +43,31 @@ if ! grep -q "source /usr/share/gazebo/setup.sh" ~/.bashrc; then
     echo "Added Gazebo to ~/.bashrc"
 fi
 
+# 5. Install Python Dependencies
 echo "================================================="
 echo "   Installing Python Dependencies"
 echo "================================================="
 
-sudo apt install python3-pip -y
-pip3 install torch torchvision torchaudio numpy matplotlib
+sudo apt install python3-pip python3-venv -y
+
+echo "It is recommended to use a virtual environment for heavy Python packages like PyTorch."
+if [ -n "$VIRTUAL_ENV" ]; then
+    echo "Active virtual environment detected ($VIRTUAL_ENV)."
+    read -p "Do you want to install PyTorch and other dependencies in this venv? (y/n): " INSTALL_PYTHON_DEPS
+    if [[ "$INSTALL_PYTHON_DEPS" =~ ^[Yy]$ ]]; then
+        pip install torch torchvision torchaudio numpy matplotlib
+    else
+        echo "Skipping Python dependencies installation."
+    fi
+else
+    read -p "Do you want to install PyTorch and other dependencies system-wide? This may take a while. (y/n): " INSTALL_PYTHON_DEPS
+    if [[ "$INSTALL_PYTHON_DEPS" =~ ^[Yy]$ ]]; then
+        pip3 install torch torchvision torchaudio numpy matplotlib
+    else
+        echo "Skipping Python dependencies installation."
+        echo "You can install them later inside a venv using: pip install torch torchvision torchaudio numpy matplotlib"
+    fi
+fi
 
 echo "================================================="
 echo "   Cloning the Workspace"
