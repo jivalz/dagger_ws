@@ -8,7 +8,7 @@ def generate_launch_description():
     controllers_pkg = get_package_share_directory('controllers')
     car_pkg = get_package_share_directory('car_description')
     
-    world = os.path.join(controllers_pkg, 'worlds', '3lane_track.world')
+    world = os.path.join(controllers_pkg, 'worlds', '2lane_track.world')
     car_sdf = os.path.join(car_pkg, 'models', 'car', 'model.sdf')
     
     model_path = ':'.join([

@@ -21,7 +21,7 @@ class TeleopKeyboard(Node):
         super().__init__('teleop_keyboard')
         self.publisher_ = self.create_publisher(Twist, 'cmd_vel', 10)
         self.speed = 3.0
-        self.turn = 1.5
+        self.turn = 2.0
         
         self.pressed = {
             'w': False,
