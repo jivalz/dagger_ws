@@ -91,5 +91,14 @@ def generate_launch_description():
                 ),
             ],
         ),
+        
+        # RViz2 Node for visualization
+        Node(
+            package='rviz2',
+            executable='rviz2',
+            name='rviz2',
+            output='screen',
+            arguments=['-d', os.path.join(controllers_pkg, 'rviz', 'config.rviz')],
+        ),
     ]
     return LaunchDescription(ld)
