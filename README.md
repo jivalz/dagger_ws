@@ -13,7 +13,7 @@ wget https://raw.githubusercontent.com/jivalz/dagger_ws/main/install.sh
 chmod +x install.sh
 ./install.sh
 ```
-*(After it finishes, close your terminal, open a new one, and jump straight to Section 3: Workflow).*
+*(After it finishes, close your terminal, open a new one, and proceed to **Section 2** to build the workspace).*
 
 ### Option B: Manual Setup
 
