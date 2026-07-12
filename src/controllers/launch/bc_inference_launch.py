@@ -94,6 +94,12 @@ def generate_launch_description():
         
         # RViz2 Node for visualization
         Node(
+            package='controllers',
+            executable='lidar_visualizer_node',
+            name='lidar_visualizer',
+            output='screen',
+        ),
+        Node(
             package='rviz2',
             executable='rviz2',
             name='rviz2',

@@ -77,7 +77,8 @@ class DaggerDataCollectorNode(Node):
         odom = self.latest_odom
 
         ranges = np.array(self.latest_scan.ranges, dtype=np.float32)
-        ranges = ranges[::3]  # Downsample 1080 -> 360
+        if len(ranges) == 360:
+            ranges = ranges[::1]  # Downsample 1080 -> 360
         max_r = self.latest_scan.range_max
         ranges = np.where(np.isfinite(ranges), ranges, max_r)
 

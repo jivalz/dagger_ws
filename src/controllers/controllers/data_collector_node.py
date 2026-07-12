@@ -158,7 +158,8 @@ class DataCollectorNode(Node):
         odom = self.latest_odom
 
         ranges = np.array(self.latest_scan.ranges, dtype=np.float32)
-        ranges = ranges[::3]  # Downsample from 1080 to 360 points
+        if len(ranges) == 1360:
+            ranges = ranges[::1]  # Downsample from 1080 to 360 points
         max_r = self.latest_scan.range_max
         ranges = np.where(np.isfinite(ranges), ranges, max_r)
 

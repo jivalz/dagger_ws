@@ -42,6 +42,7 @@ setup(
             'dagger_supervisor = controllers.dagger_supervisor_node:main',
             'dagger_data_collector = controllers.dagger_data_collector_node:main',
             'mpc_expert2_node = controllers.mpc_optimal_trajec_expert2_node:main',
+            'lidar_visualizer_node = controllers.lidar_visualizer_node:main',
         ],
     },
 )

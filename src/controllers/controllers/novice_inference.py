@@ -61,7 +61,8 @@ class NoviceInferenceNode(Node):
             return
 
         ranges = np.array(self.latest_scan.ranges, dtype=np.float32)
-        ranges = ranges[::3]  # Downsample from 1080 to 360
+        if len(ranges) == 360:
+            ranges = ranges[::1]  # Downsample from 1080 to 360
         ranges = np.where(np.isfinite(ranges), ranges, self.max_range)
         ranges = np.clip(ranges / self.max_range, 0.0, 1.0)
 
