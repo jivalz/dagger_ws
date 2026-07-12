@@ -19,6 +19,9 @@ def generate_launch_description():
     # Car spawn
     car_x, car_y, car_yaw = -8.0, 0.0, -1.57
     
+    dagger_weights = os.path.expanduser('~/dagger_ws/src/controllers/weights/dagger_policy.pt')
+    bc_weights = os.path.expanduser('~/dagger_ws/src/controllers/weights/bc_policy.pt')
+    
     ld = [
         # Gazebo
         ExecuteProcess(
@@ -61,7 +64,7 @@ def generate_launch_description():
                     executable='human_dagger_node',
                     name='human_dagger',
                     output='screen',
-                    parameters=[],
+                    parameters=[{'weights_path': dagger_weights if os.path.exists(dagger_weights) else bc_weights}],
                     remappings=[
                         ('/scan', '/scan'),
                         ('/odom', '/odom'),
